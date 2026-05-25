@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="color-scheme" content="dark" />
+<title>Victoria Ogbulu — Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:opsz,wght@14..32,300..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    color-scheme:dark only;
+    --bg:#0a0a0b;
+    --bg-2:#0f1011;
+    --dim:#6a6b6e;
+    --lit:#f2f2f0;
+    --mut:#9a9b9d;
+    --accent:#836fff;
+    --line:rgba(242,242,240,.16);
+    --mono:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --body:"Space Grotesk","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --g1:rgba(131,111,255,.16);
+    --g2:rgba(120,140,160,.07);
+    --g3:rgba(131,111,255,.05);
+  }
+  body[data-tone="hero"]   .glow{--g1:rgba(131,111,255,.20);--g2:rgba(70,90,110,.16);--g3:rgba(131,111,255,.06)}
+  body[data-tone="mission"] .glow{--g1:rgba(255,90,160,.16);--g2:rgba(131,111,255,.14);--g3:rgba(90,120,255,.06)}
+  body[data-tone="make"]   .glow{--g1:rgba(64,196,180,.15);--g2:rgba(131,111,255,.12);--g3:rgba(40,150,180,.06)}
+  body[data-tone="stats"]  .glow{--g1:rgba(255,160,60,.14);--g2:rgba(131,111,255,.12);--g3:rgba(255,120,80,.06)}
+  body[data-tone="craft"]  .glow{--g1:rgba(131,111,255,.18);--g2:rgba(90,200,255,.12);--g3:rgba(131,111,255,.06)}
+  body[data-tone="note"]   .glow{--g1:rgba(255,120,90,.14);--g2:rgba(131,111,255,.14);--g3:rgba(200,90,255,.06)}
+  body[data-tone="cta"]    .glow{--g1:rgba(131,111,255,.22);--g2:rgba(255,90,160,.12);--g3:rgba(90,120,255,.08)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;background:#0a0a0b;overflow-x:hidden;width:100%}
+  body{
+    background:#0a0a0b;color:var(--lit);
+    font-family:var(--body);font-weight:400;line-height:1.5;
+    overflow-x:hidden;width:100%;max-width:100%;-webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  .backdrop{position:fixed;inset:0;z-index:0;background:#0a0a0b;pointer-events:none;overflow:hidden}
+  .backdrop .glow{position:absolute;inset:-40%;transition:background 1.2s ease;will-change:transform;
+    background:
+      radial-gradient(55% 50% at 80% 6%, var(--g1), transparent 60%),
+      radial-gradient(45% 40% at 50% 50%, var(--g3), transparent 70%);}
+  .backdrop .float-glow{position:absolute;left:50%;bottom:-10%;width:80vw;height:60vh;
+    transform:translateX(-50%);pointer-events:none;transition:background 1.2s ease;
+    background:radial-gradient(50% 50% at 50% 50%, var(--g2), transparent 65%);
+    animation:floatGlow 22s ease-in-out infinite alternate;filter:blur(10px)}
+  @keyframes floatGlow{
+    0%{transform:translate(-58%,4%) scale(1)}
+    33%{transform:translate(-42%,-6%) scale(1.12)}
+    66%{transform:translate(-55%,2%) scale(.95)}
+    100%{transform:translate(-46%,-3%) scale(1.08)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .backdrop .float-glow{animation:none}
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.05;mix-blend-mode:screen;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  header,section{position:relative;z-index:2}
+
+  /* HEADER + LOGO */
+  header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:flex-end;align-items:center;
+    padding:1.2rem 6vw;background:transparent;transition:padding .4s;pointer-events:none}
+  header::before{content:"";position:absolute;left:0;right:0;top:0;bottom:-3.2rem;z-index:-1;pointer-events:none;
+    background:linear-gradient(to bottom, rgba(10,10,11,.75) 0%, rgba(10,10,11,.45) 55%, rgba(10,10,11,0) 100%);
+    opacity:0;transition:opacity .45s ease}
+  header.scrolled::before{opacity:1}
+  header>*{pointer-events:auto}
+  header.scrolled{padding:.9rem 6vw}
+  header .logo{position:absolute;font-weight:700;letter-spacing:-.01em;color:var(--lit);text-decoration:none;
+    display:inline-flex;align-items:center;will-change:top,left,opacity;opacity:0;transition:opacity .25s ease}
+  header .logo.ready{opacity:1}
+  header .logo-svg{width:auto;display:block;image-rendering:auto}
+  /* logo intro: the stroke PNG handwrites in left→right (first animation, a clip wipe),
+     then the glass wordmark blooms in behind it. As it docks into the nav, glass + stroke
+     crossfade out and the original white/purple wordmark fades in. Each layer's opacity
+     = CSS entrance (on a wrapper) × JS dock progress (runDock), so no handoff, no jump. */
+  header .logo-svg{position:relative}
+  /* glass hero image — entrance bloom on the wrapper; dock fade-out set by runDock on the image */
+  header .glass-bloom{opacity:0}
+  header .logo.ready .glass-bloom{animation:bloomIn 1.1s cubic-bezier(.16,1,.3,1) 1.3s forwards}
+  @keyframes bloomIn{
+    0%{opacity:0;filter:blur(2px)}
+    100%{opacity:1;filter:blur(0)}
+  }
+  /* stroke PNG — wipes in left→right (handwritten) and STAYS at full opacity over the
+     glass. dock fade-out lives on .stroke-wrap via runDock. */
+  header .logo-stroke-img{clip-path:inset(0 100% 0 0)}
+  header .logo.ready .logo-stroke-img{animation:strokeWipe 1.4s cubic-bezier(.4,0,.2,1) .25s forwards}
+  @keyframes strokeWipe{
+    from{clip-path:inset(0 100% 0 0)}
+    to{clip-path:inset(0 0 0 0)}
+  }
+  /* original white/purple wordmark — the nav fallback. hidden in the hero, faded in by
+     runDock as the logo docks. */
+  header .logo-fill{opacity:0;transition:opacity .2s ease}
+  @media(prefers-reduced-motion:reduce){
+    header .logo.ready .logo-stroke-img{animation:none;clip-path:none;opacity:1}
+    header .logo.ready .glass-bloom{animation:none;opacity:1;filter:none}
+  }
+  @media(max-width:760px){
+    /* mobile hero: full-color glass logo at 100% opacity (set in JS), no stroke overlay */
+    header .stroke-wrap{display:none}
+  }
+  .navlinks{display:flex;gap:2rem;opacity:0;transition:opacity .3s linear;pointer-events:none}
+  .navlinks.docked{pointer-events:auto}
+  .navlinks a{font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;color:var(--mut);text-decoration:none;
+    position:relative;padding:.2rem 0;transition:color .3s}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--accent);transition:width .3s}
+  .navlinks a:hover,.navlinks a.active{color:var(--lit)}
+  .navlinks a.active::after,.navlinks a:hover::after{width:100%}
+  .menu-btn{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;z-index:70;opacity:0;transition:opacity .3s}
+  .menu-btn.docked{opacity:1}
+  .menu-btn span{width:26px;height:2px;background:var(--lit);transition:transform .35s,opacity .35s}
+  .menu-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .menu-btn.open span:nth-child(2){transform:translateY(-0px) rotate(-45deg)}
+
+  .overlay{position:fixed;inset:0;z-index:55;background:rgba(10,10,11,.97);backdrop-filter:blur(14px);
+    display:flex;flex-direction:column;justify-content:center;gap:1.2rem;padding:0 8vw;
+    opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+  .overlay.open{opacity:1;visibility:visible}
+  .overlay a{font-family:"Inter",sans-serif;font-size:clamp(1.6rem,6vw,2.6rem);font-weight:600;letter-spacing:-.03em;
+    color:var(--lit);text-decoration:none;transform:translateY(12px);opacity:0;transition:.5s}
+  .overlay.open a{transform:none;opacity:1}
+  .overlay.open a:nth-child(1){transition-delay:.06s}.overlay.open a:nth-child(2){transition-delay:.10s}
+  .overlay.open a:nth-child(3){transition-delay:.14s}.overlay.open a:nth-child(4){transition-delay:.18s}
+  .overlay.open a:nth-child(5){transition-delay:.22s}.overlay.open a:nth-child(6){transition-delay:.26s}
+  .overlay.open a:nth-child(7){transition-delay:.30s}.overlay.open a:nth-child(8){transition-delay:.34s}
+  .overlay a:hover{color:var(--accent)}
+
+  /* TO TOP */
+  .to-top{position:fixed;right:clamp(1.2rem,4vw,2.4rem);bottom:clamp(1.2rem,4vw,2.4rem);z-index:65;
+    width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:rgba(10,10,11,.7);
+    backdrop-filter:blur(10px);color:var(--lit);cursor:pointer;display:grid;place-items:center;
+    opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .35s,transform .35s,visibility .35s,background .3s,border-color .3s}
+  .to-top.show{opacity:1;visibility:visible;transform:none}
+  .to-top:hover{background:var(--accent);border-color:var(--accent)}
+  .to-top svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .to-top:hover svg{stroke:#0a0a0b}
+
+  /* INTRO / FRAME 1 */
+  .intro{min-height:100vh;position:relative;overflow:hidden;padding:0 6vw}
+  .intro-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+  .intro-overlay{position:absolute;inset:0;background:rgba(10,10,11,.80);z-index:1;pointer-events:none}
+  .intro-grad-top{position:absolute;left:0;right:0;top:0;height:55%;z-index:1;pointer-events:none;
+    background:linear-gradient(to bottom, rgba(10,10,11,1) 0%, rgba(10,10,11,.55) 55%, rgba(10,10,11,0) 100%)}
+  .typewriter{
+    position:absolute;left:50%;top:52%;transform:translateX(-50%);
+    font-family:var(--body);font-size:clamp(1.4rem,2.6vw,2.3rem);color:var(--lit);font-weight:500;letter-spacing:-.015em;
+    text-align:center;min-height:1.4em;line-height:1.25;
+    max-width:90vw;white-space:nowrap;z-index:2;
+  }
+  .typewriter::after{
+    content:"";display:inline-block;vertical-align:-.12em;
+    width:16px;height:1em;background:#4a3cc4;margin-left:10px;
+    animation:caret 1s steps(1) infinite;
+  }
+  @keyframes caret{50%{opacity:0}}
+
+  /* MOUSE SCROLL CUE */
+  .mouse-scroll{position:absolute;left:50%;bottom:6vh;transform:translateX(-50%);z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:.8rem;opacity:0;animation:fadeIn .8s 1.6s forwards}
+  @keyframes fadeIn{to{opacity:1}}
+  .mouse-shape{width:26px;height:42px;border:2px solid var(--mut);border-radius:14px;position:relative}
+  .mouse-ball{position:absolute;left:50%;top:6px;width:3px;height:7px;background:var(--accent);border-radius:2px;
+    transform:translateX(-50%);animation:mouseBall 1.8s cubic-bezier(.65,.05,.36,1) infinite}
+  @keyframes mouseBall{
+    0%{transform:translate(-50%,0);opacity:1}
+    55%{transform:translate(-50%,14px);opacity:.2}
+    100%{transform:translate(-50%,0);opacity:1}
+  }
+  .scroll-label{font-family:var(--mono);font-size:.66rem;letter-spacing:.22em;color:var(--mut)}
+  @media(prefers-reduced-motion:reduce){
+    .mouse-ball{animation:none}
+    .typewriter::after{animation:none;opacity:.6}
+  }
+
+  /* SECTION FRAME (00–07) */
+  section{padding:0;position:relative;scroll-margin-top:80px}
+  .frame{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+    padding:clamp(7rem,16vh,12rem) 6vw;max-width:1180px;margin:0 auto;
+  }
+  .frame-fullbg{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  /* thin full-width section divider — hairline, softly faded at the very edges */
+  .sec-divider{border:0;height:1px;width:100%;margin:0;
+    background:linear-gradient(90deg,transparent,rgba(242,242,240,.22) 8%,rgba(242,242,240,.22) 92%,transparent)}
+  /* fixed-attachment photographic background (parallax): the image stays put in the
+     viewport while the content scrolls over it. dark overlay keeps the text readable. */
+  .bg-fixed{
+    background-image:linear-gradient(rgba(10,10,11,.74),rgba(10,10,11,.82)),url("bg.jpg");
+    background-position:center,center;
+    background-size:cover,cover;
+    background-repeat:no-repeat,no-repeat;
+    background-attachment:fixed,fixed;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  @media(max-width:760px){
+    /* iOS/Safari handle background-attachment:fixed poorly — fall back to scroll on small screens */
+    .bg-fixed{background-attachment:scroll,scroll}
+  }
+
+  /* PILL */
+  .pill{
+    display:inline-flex;align-items:center;gap:.55em;
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--mut);font-weight:500;
+    background:transparent;border:none;
+    padding:.5rem 1.1rem;
+    margin-bottom:2.6rem;
+  }
+  /* hand-drawn circle around the personal-note pill — draws on as section enters view */
+  .note-title{position:relative;display:inline-block;margin-bottom:2.6rem}
+  .note-title .pill{margin-bottom:0}
+  .note-title svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:170%;height:240%;overflow:visible;z-index:1;pointer-events:none}
+  .note-title path{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;
+    stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
+  .pill::before{content:"{";color:var(--accent);font-weight:600;font-size:1.15em}
+  .pill::after{content:"}";color:var(--accent);font-weight:600;font-size:1.15em}
+
+  /* FRAME TEXT */
+  .frame-h{font-size:clamp(2.6rem,7vw,5.6rem);font-weight:700;letter-spacing:-.04em;line-height:1.02;margin-bottom:2rem}
+  .frame-p{font-size:clamp(1.7rem,3.6vw,3rem);font-weight:500;color:var(--mut);max-width:24ch;line-height:1.22;letter-spacing:-.02em}
+  .frame-p b{color:var(--lit);font-weight:500}
+  .frame-statement{font-size:clamp(1.7rem,4vw,3.4rem);font-weight:600;letter-spacing:-.025em;line-height:1.2;max-width:22ch}
+  .frame-statement em{font-style:normal;color:var(--accent)}
+  .frame-statement .o{color:var(--accent)}
+
+  /* SCRUB */
+  .scrub .w{color:var(--dim);transition:color .15s linear}
+  .scrub .w.lit{color:var(--lit)}
+  .scrub .wb{font-weight:700}
+  .scrub .wp,.scrub .wp.lit{font-weight:700;color:var(--accent)}
+
+  /* MAKE LIST (work) */
+  .make-list{margin-top:4rem;border-top:1px solid var(--line);width:100%;max-width:1100px;text-align:left}
+  .row{display:flex;align-items:center;gap:1.5rem;padding:1.6rem 0;border-bottom:1px solid var(--line);cursor:pointer;transition:padding-left .4s cubic-bezier(.16,1,.3,1)}
+  .row[data-billow] .n,.row[data-billow] .nm{opacity:0;will-change:transform,opacity,filter}
+  .row.billow .nm{animation:billow 1.15s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--bi,0) * .12s)}
+  .row.billow .n{animation:billow 1.15s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--bi,0) * .12s + .05s)}
+  @keyframes billow{
+    0%{opacity:0;transform:translateY(46px) translateX(6px) rotate(1.6deg) scale(.97);filter:blur(6px)}
+    55%{opacity:1;transform:translateY(-7px) translateX(-2px) rotate(-.5deg) scale(1.01);filter:blur(0)}
+    78%{transform:translateY(3px) rotate(.2deg) scale(1)}
+    100%{opacity:1;transform:none;filter:blur(0)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .row[data-billow] .n,.row[data-billow] .nm{opacity:1!important}
+    .row.billow .nm,.row.billow .n{animation:none}
+  }
+  .row .n{font-family:var(--mono);font-size:.78rem;color:var(--accent);min-width:3.5ch}
+  .row .nm{font-size:clamp(1.7rem,5vw,3.6rem);font-weight:600;letter-spacing:-.03em;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+  .row .gh{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--mut);max-width:24ch;text-align:right;opacity:0;transform:translateX(-8px);transition:.4s}
+  .row:hover{padding-left:1.4rem}
+  .row:hover .nm{transform:translateX(6px)}
+  .row:hover .gh{opacity:1;transform:none}
+
+  /* WORK ACCORDION — each row toggles a gallery panel open/closed */
+  .acc{border-bottom:1px solid var(--line)}      /* divider wraps header+gallery as one item */
+  .acc .acc-head{border-bottom:none}
+  .acc-head{position:relative}
+  .acc-head .acc-icon{flex-shrink:0;position:relative;width:20px;height:20px;margin-left:1.25rem}
+  .acc-head .acc-icon::before,.acc-head .acc-icon::after{content:"";position:absolute;top:50%;left:50%;
+    background:var(--mut);transition:transform .45s cubic-bezier(.16,1,.3,1),background .3s}
+  .acc-head .acc-icon::before{width:15px;height:1.5px;transform:translate(-50%,-50%)}
+  .acc-head .acc-icon::after{width:1.5px;height:15px;transform:translate(-50%,-50%)}     /* the vertical bar of the "+" */
+  .acc.open .acc-icon::after{transform:translate(-50%,-50%) scaleY(0)}                    /* collapses to "−" when open */
+  .acc.open .acc-icon::before{background:var(--accent)}
+  .acc.open>.acc-head .nm{color:var(--accent)}
+  .acc-head:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+  /* collapsible panel via grid-rows 0fr→1fr (smooth, no fixed height needed) */
+  .acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s cubic-bezier(.16,1,.3,1)}
+  .acc.open .acc-panel{grid-template-rows:1fr}
+  .acc-panel-inner{overflow:hidden;min-height:0}
+  /* HOVER TO OPEN: on hover-capable pointers, hovering the tier opens its gallery and
+     leaving closes it. It stays open while the cursor is over the panel, so you can reach
+     and click the photos. (Touch devices fall back to tap/click — handled in JS.) */
+  @media(hover:hover){
+    .acc:hover .acc-panel{grid-template-rows:1fr}
+    .acc:hover .acc-icon::after{transform:translate(-50%,-50%) scaleY(0)}
+    .acc:hover .acc-icon::before{background:var(--accent)}
+    .acc:hover>.acc-head .nm{color:var(--accent)}
+  }
+  /* masonry gallery — full screenshots, no cropping */
+  .gallery{columns:3;column-gap:1.1rem;padding:1.4rem 0 2.6rem}
+  .shot{break-inside:avoid;margin:0 0 1.1rem;border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    background:var(--bg-2);cursor:zoom-in;transition:border-color .35s,transform .35s,box-shadow .35s}
+  .shot:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.4)}
+  .shot img{width:100%;height:auto;display:block}
+  .gallery-empty{padding:1.4rem 0 2.6rem;font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:var(--mut)}
+  @media(max-width:900px){.gallery{columns:2}}
+  @media(max-width:760px){.acc-head .acc-icon{margin-left:auto}}   /* gh hides on mobile, so push icon right */
+  @media(max-width:560px){.gallery{columns:1}}
+
+  /* LIGHTBOX — click any shot to view full size */
+  .lightbox{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    padding:clamp(1rem,5vw,4rem);background:rgba(8,8,9,.93);backdrop-filter:blur(10px);cursor:zoom-out;
+    opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+  .lightbox.open{opacity:1;visibility:visible}
+  .lightbox img{max-width:100%;max-height:90vh;border-radius:10px;box-shadow:0 30px 90px rgba(0,0,0,.6);
+    transform:scale(.96);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+  .lightbox.open img{transform:scale(1)}
+  .lightbox-close{position:absolute;top:clamp(1rem,3vw,2rem);right:clamp(1rem,3vw,2rem);width:44px;height:44px;
+    border:1px solid var(--line);border-radius:50%;background:rgba(10,10,11,.6);color:var(--lit);cursor:pointer;
+    display:grid;place-items:center;font-size:1.5rem;line-height:1;transition:background .3s,border-color .3s,color .3s}
+  .lightbox-close:hover{background:var(--accent);border-color:var(--accent);color:#0a0a0b}
+  /* prev/next navigation through the open gallery */
+  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:1;width:54px;height:54px;
+    border:1px solid var(--line);border-radius:50%;background:rgba(10,10,11,.6);color:var(--lit);cursor:pointer;
+    display:grid;place-items:center;font-size:2rem;line-height:1;padding-bottom:.18em;
+    transition:background .3s,border-color .3s,color .3s}
+  .lb-nav:hover{background:var(--accent);border-color:var(--accent);color:#0a0a0b}
+  .lb-prev{left:clamp(.8rem,3vw,2rem)}
+  .lb-next{right:clamp(.8rem,3vw,2rem)}
+  .lb-nav[hidden]{display:none}
+  .lb-count{position:absolute;bottom:clamp(1rem,3vw,2rem);left:50%;transform:translateX(-50%);
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;color:var(--mut)}
+  @media(max-width:560px){.lb-nav{width:44px;height:44px;font-size:1.6rem}}
+  @media(prefers-reduced-motion:reduce){
+    .acc-panel{transition:none}.shot,.lightbox,.lightbox img{transition:none}
+  }
+
+  /* STATS */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem;margin-top:4rem;width:100%;max-width:1100px;text-align:left}
+  .stat{cursor:pointer;transition:transform .3s}
+  .stat:hover{transform:translateY(-3px)}
+  .stat .n{font-size:clamp(3.4rem,8vw,6.4rem);font-weight:700;letter-spacing:-.05em;line-height:.85;font-variant-numeric:tabular-nums}
+  .stat .n .u{color:var(--accent);font-size:.32em;font-weight:500;vertical-align:super;margin-left:.1em;font-family:var(--mono)}
+  .stat .n.word{color:var(--accent)}
+  .stat .n.word .l{color:var(--accent);transition:color .45s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i,0) * 70ms)}
+  .stat .n.word .l.lit{color:var(--lit)}
+  .stat .d{font-family:var(--mono);font-size:clamp(.95rem,1.05vw,1.1rem);color:var(--mut);margin-top:1.2rem;line-height:1.5;max-width:28ch}
+
+  /* CRAFT CARDS */
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-top:4rem;width:100%;max-width:1100px;text-align:left}
+  .card{position:relative;padding-top:1.4rem;cursor:default;border-top:1.5px solid transparent}
+  .card::before{content:"";position:absolute;top:-1px;left:0;right:0;height:1.5px;
+    background:var(--accent);
+    transform-origin:left center;transform:scaleX(0);
+    transition:transform 2.2s cubic-bezier(.19,1,.22,1);
+  }
+  .card.in::before{transform:scaleX(1)}
+  .cols .card:nth-child(2)::before{transition-delay:.18s}
+  .cols .card:nth-child(3)::before{transition-delay:.36s}
+  .card h3{font-size:1.15rem;font-weight:600;margin-bottom:.6rem}
+  .card p{font-size:.9rem;color:var(--mut);font-weight:300}
+
+  /* CTA */
+  .links{display:flex;flex-wrap:wrap;gap:1rem 1.25rem;margin-top:3rem;justify-content:center}
+  .links a{font-family:var(--mono);font-size:.82rem;color:var(--lit);text-decoration:none;border:1px solid var(--line);
+    padding:.85rem 1.5rem;border-radius:2px;transition:.3s;display:inline-flex;gap:.5rem;align-items:center;cursor:pointer}
+  .links a:hover{background:var(--accent);border-color:var(--accent);color:#0a0a0b}
+  .links a.bare{border:none;padding-left:0;color:var(--mut)}
+  .links a.bare:hover{background:none;color:var(--accent)}
+  .colo{display:flex;justify-content:space-between;gap:1rem;margin-top:5rem;padding-top:2rem;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:.72rem;color:var(--mut);flex-wrap:wrap;width:100%;max-width:1100px}
+
+  /* TRUSTED BY (logo marquee) */
+  .trusted-by{padding:5rem 0 6rem;text-align:center;position:relative;z-index:2}
+  .trusted-label{font-family:var(--body);font-size:clamp(1.15rem,2.5vw,1.75rem);font-weight:500;line-height:1.45;
+    letter-spacing:-.015em;color:var(--mut);max-width:34ch;margin:0 auto 3rem;text-align:center}
+  .trusted-label em{font-style:normal;color:var(--accent)}
+  .marquee{overflow:hidden;
+    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+            mask-image:linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  }
+  .marquee-track{display:flex;align-items:center;gap:5.5rem;width:max-content;
+    animation:marquee 38s linear infinite;will-change:transform}
+  @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.marquee-track{animation:none}}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  .brand-logo{flex-shrink:0;opacity:var(--trusted-op,.35);transition:opacity .35s ease;
+    /* uniform box: every brand occupies the same width slot, image fits proportionally inside */
+    width:170px;height:56px;object-fit:contain;
+    filter:brightness(0) invert(.55) saturate(0);
+  }
+  @media(max-width:760px){
+    .trusted-by{padding:3.5rem 0 4rem}
+    .marquee-track{gap:3.5rem;animation-duration:30s}
+    .brand-logo{width:120px;height:40px}
+  }
+
+  /* WHAT MY COLLEAGUES ARE SAYING — scrolling testimonials (same marquee mechanic) */
+  .testi{padding:5rem 0 5.5rem;position:relative;z-index:2}
+  .testi-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;color:var(--mut);
+    text-transform:uppercase;text-align:center;margin-bottom:3rem}
+  .testi-carousel{position:relative}
+  .testi-viewport{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);
+            mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent)}
+  .testi-viewport::-webkit-scrollbar{width:0;height:0;display:none}
+  .testi-track{display:flex;align-items:flex-start;gap:1.6rem;width:max-content;padding:.5rem clamp(1.5rem,6vw,4.5rem)}
+  .testi-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:48px;height:48px;border-radius:50%;
+    border:1px solid var(--line);background:rgba(10,10,11,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    color:var(--lit);cursor:pointer;display:grid;place-items:center;font-size:1.7rem;line-height:1;padding-bottom:.12em;
+    transition:background .3s,border-color .3s,color .3s}
+  .testi-arrow:hover{background:var(--accent);border-color:var(--accent);color:#0a0a0b}
+  .testi-prev{left:clamp(.4rem,2vw,1.5rem)}
+  .testi-next{right:clamp(.4rem,2vw,1.5rem)}
+  .testi-card{flex-shrink:0;width:clamp(290px,82vw,400px);background:var(--bg-2);border:1px solid var(--line);
+    border-radius:14px;padding:1.6rem 1.7rem;display:flex;flex-direction:column;white-space:normal;text-align:left}
+  .testi-head{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.1rem}
+  .testi-avatar{flex-shrink:0;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    font-family:var(--mono);font-size:.9rem;font-weight:600;color:#fff;letter-spacing:.02em}
+  .testi-meta{display:flex;flex-direction:column;min-width:0}
+  .testi-name{font-weight:600;font-size:1rem;letter-spacing:-.01em;color:var(--lit)}
+  .testi-role{font-size:.78rem;color:var(--mut);line-height:1.35;margin-top:.15rem;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .testi-rel{font-family:var(--mono);font-size:.64rem;letter-spacing:.04em;color:var(--dim);margin-top:.4rem}
+  .testi-quote{font-size:.92rem;line-height:1.55;color:var(--mut);margin:0}
+  .testi-quote.clamp{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+  .testi-card.expanded .testi-quote{display:block;overflow:visible}
+  .testi-more{align-self:flex-start;margin-top:.8rem;background:none;border:none;cursor:pointer;padding:0;
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--accent);transition:color .25s}
+  .testi-more:hover{color:var(--lit)}
+  .testi-more[hidden]{display:none}
+  @media(max-width:760px){.testi{padding:3.5rem 0 4rem}.testi-track{gap:1.1rem}.testi-arrow{width:40px;height:40px;font-size:1.4rem}}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+  @media(max-width:760px){
+    .navlinks{display:none}
+    .menu-btn{display:flex}
+    .grid{grid-template-columns:repeat(2,1fr);gap:2.5rem 1.5rem}
+    .cols{grid-template-columns:1fr;gap:2rem}
+    .row .gh{display:none}
+    .colo{flex-direction:column}
+    /* tighter section rhythm on mobile so the page doesn't feel padded out */
+    .frame{padding:4rem 6vw;min-height:auto}
+    .pill{margin-bottom:1.6rem}
+    .frame-h{margin-bottom:1.2rem}
+    .make-list{margin-top:2.5rem}
+    .row{padding:1.1rem 0}
+    .grid{margin-top:2.5rem}
+    .cols{margin-top:2.5rem}
+    .links{margin-top:2.2rem}
+    .colo{margin-top:3rem}
+    /* denser scrim on mobile so docked logo + menu read cleanly over content */
+    header::before{bottom:-4.2rem;
+      background:linear-gradient(to bottom, rgba(10,10,11,.87) 0%, rgba(10,10,11,.6) 48%, rgba(10,10,11,0) 100%)}
+  }
+</style>
+</head>
+<body>
+
+<div class="backdrop">
+  <div class="glow"></div>
+  <div class="float-glow"></div>
+</div>
+
+<header id="top">
+  <a href="#intro" class="logo" data-nav aria-label="Victoria Ogbulu — Home">
+    <svg class="logo-svg" viewBox="0 0 230 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- HERO: photoshopped glassmorphic wordmark. blooms in behind the stroke; runDock fades it out on dock -->
+      <g class="glass-bloom">
+        <image class="logo-glass" href="glass-morphic%20logo.png" x="0" y="0" width="230" height="26" preserveAspectRatio="none"/>
+      </g>
+      <!-- NAV FALLBACK: original white/purple wordmark. hidden in the hero, faded in by runDock as it docks -->
+      <text class="logo-fill" x="0" y="22" font-family="'Bebas Neue', Impact, 'Arial Narrow', sans-serif" font-weight="400" font-size="26" letter-spacing="0.5">
+        <tspan fill="#9a9b9d">/*</tspan><tspan fill="#f2f2f0">VICTORIA</tspan><tspan fill="#836fff">OGBULU</tspan><tspan fill="#9a9b9d">*/</tspan>
+      </text>
+      <!-- STROKE REVEAL: the stroke PNG handwrites in left→right via a clip wipe (CSS); wrapper opacity (runDock) fades it out on dock.
+           x/y/width/height are tuned so the stroke's glyphs land exactly on the glass's glyphs:
+           the glass PNG has glow padding (glyphs occupy ~x[.0036,.9964] y[.0405,.9653] of its canvas) while the
+           stroke fills its canvas, so the stroke box is inset to match the glass glyph rectangle. -->
+      <g class="stroke-wrap">
+        <image class="logo-stroke-img" href="logostroke.png" x="0.688" y="1.052" width="228.623" height="24.046" preserveAspectRatio="none"/>
+      </g>
+    </svg>
+  </a>
+  <nav class="navlinks">
+    <a href="#work" data-nav>Work</a>
+    <a href="#experience" data-nav>Experience</a>
+    <a href="#approach" data-nav>Approach</a>
+    <a href="#contact" data-nav>Contact</a>
+  </nav>
+  <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+</header>
+
+<div class="overlay" aria-hidden="true">
+  <a href="#intro" data-nav>Introduction</a>
+  <a href="#who" data-nav>Who I am</a>
+  <a href="#mission" data-nav>Mission</a>
+  <a href="#work" data-nav>Work</a>
+  <a href="#experience" data-nav>Experience</a>
+  <a href="#approach" data-nav>Approach</a>
+  <a href="#note" data-nav>Personal Note</a>
+  <a href="#contact" data-nav>Contact</a>
+</div>
+
+<!-- 00 / INTRO -->
+<section id="intro" data-tone="hero" class="intro">
+  <video class="intro-bg" autoplay loop muted playsinline preload="auto" aria-hidden="true">
+    <source src="Fractal_Glass_05.mp4" type="video/mp4">
+    <source src="Fractal_Glass_05.mov" type="video/quicktime">
+  </video>
+  <div class="intro-overlay" aria-hidden="true"></div>
+  <div class="intro-grad-top" aria-hidden="true"></div>
+  <p class="typewriter" data-typewriter="Hello, Samsara. Let me introduce myself."></p>
+  <div class="mouse-scroll" aria-hidden="true">
+    <div class="mouse-shape"><div class="mouse-ball"></div></div>
+    <span class="scroll-label">SCROLL</span>
+  </div>
+</section>
+
+<!-- 01 / WHO I AM -->
+<section id="who" data-tone="mission" class="bg-fixed">
+  <div class="frame">
+    <span class="pill reveal">01 / who i am</span>
+    <h2 class="frame-h reveal d1">I'm Victoria.</h2>
+    <p class="frame-p scrub reveal d2" data-scrub data-scrub-min="3" data-scrub-start="0.75" data-scrub-end="0.2">A multi-disciplinary designer with deep subject-matter expertise in supply chain management — working across app, web, and B2B SaaS.</p>
+  </div>
+</section>
+
+<!-- 02 / THE MISSION -->
+<section id="mission" data-tone="hero">
+  <hr class="sec-divider" aria-hidden="true">
+  <div class="frame">
+    <span class="pill reveal">02 / the mission</span>
+    <p class="frame-statement scrub reveal d1" data-scrub>Together, let's build experiences that delight your users and raise the bar on what's possible.</p>
+  </div>
+</section>
+
+<!-- 03 / WHAT I MAKE -->
+<section id="work" data-tone="make">
+  <hr class="sec-divider" aria-hidden="true">
+  <div class="frame">
+    <span class="pill reveal">03 / what i make</span>
+    <p class="frame-statement scrub reveal d1" data-scrub>I've shipped work across every surface a brand lives on.</p>
+    <div class="make-list">
+
+      <!-- 01 / WEBSITES -->
+      <div class="acc" data-acc>
+        <div class="row acc-head" data-billow style="--bi:0" data-blip role="button" tabindex="0" aria-expanded="false" aria-controls="work-panel-1">
+          <span class="n">01</span><span class="nm">Websites</span><span class="gh">RESPONSIVE · SYSTEMS-DRIVEN · BUILT TO SCALE</span><span class="acc-icon" aria-hidden="true"></span>
+        </div>
+        <div class="acc-panel" id="work-panel-1" role="region" aria-label="Websites gallery">
+          <div class="acc-panel-inner">
+            <div class="gallery">
+              <figure class="shot"><img src="Work/Website/apptricity.webp" width="1326" height="1030" loading="lazy" alt="Apptricity — website"></figure>
+              <figure class="shot"><img src="Work/Website/Dribbble_Shot_mouser.webp" width="1500" height="848" loading="lazy" alt="Mouser — website"></figure>
+              <figure class="shot"><img src="Work/Website/MK-community-lp.webp" width="2500" height="1587" loading="lazy" alt="Mary Kay Community — website"></figure>
+              <figure class="shot"><img src="Work/Website/MK-Connect.webp" width="2500" height="1587" loading="lazy" alt="Mary Kay Connect — website"></figure>
+              <figure class="shot"><img src="Work/Website/print_mouser-inventory-management.webp" width="2400" height="1000" loading="lazy" alt="Mouser inventory management — website"></figure>
+              <figure class="shot"><img src="Work/Website/Screenshot+2023-12-04+at+12.45.04+PM.webp" width="2500" height="1246" loading="lazy" alt="Website project"></figure>
+              <figure class="shot"><img src="Work/Website/S0pvaI5KFJZbekNWdfcIM0qE.avif" width="653" height="1024" loading="lazy" alt="Website project — mobile"></figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 / APPS -->
+      <div class="acc" data-acc>
+        <div class="row acc-head" data-billow style="--bi:1" data-blip role="button" tabindex="0" aria-expanded="false" aria-controls="work-panel-2">
+          <span class="n">02</span><span class="nm">Apps</span><span class="gh">MOBILE &amp; PRODUCT UX · RESEARCH → HANDOFF</span><span class="acc-icon" aria-hidden="true"></span>
+        </div>
+        <div class="acc-panel" id="work-panel-2" role="region" aria-label="Apps gallery">
+          <div class="acc-panel-inner">
+            <div class="gallery">
+              <figure class="shot"><img src="Work/App/MK-UI-UX.webp" width="2500" height="1667" loading="lazy" alt="Mary Kay app — UI/UX"></figure>
+              <figure class="shot"><img src="Work/App/1-1.webp" width="2500" height="1667" loading="lazy" alt="Mary Kay app"></figure>
+              <figure class="shot"><img src="Work/App/01-marykayux.webp" width="1080" height="1080" loading="lazy" alt="Mary Kay app — UX"></figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 / DIGITAL ADS -->
+      <div class="acc" data-acc>
+        <div class="row acc-head" data-billow style="--bi:2" data-blip role="button" tabindex="0" aria-expanded="false" aria-controls="work-panel-3">
+          <span class="n">03</span><span class="nm">Digital Ads</span><span class="gh">PROGRAMMATIC &amp; CAMPAIGN CREATIVE AT VOLUME</span><span class="acc-icon" aria-hidden="true"></span>
+        </div>
+        <div class="acc-panel" id="work-panel-3" role="region" aria-label="Digital Ads gallery">
+          <div class="acc-panel-inner">
+            <div class="gallery">
+              <figure class="shot"><img src="Work/Ad%20Design/1-tech+quotient.webp" width="1440" height="1440" loading="lazy" alt="Tech Quotient — digital ad"></figure>
+              <figure class="shot"><img src="Work/Ad%20Design/3_techquotient.webp" width="1229" height="1220" loading="lazy" alt="Tech Quotient — digital ad"></figure>
+              <figure class="shot"><img src="Work/Ad%20Design/Mouser-Ebook-AdTemplates.webp" width="1227" height="1073" loading="lazy" alt="Mouser eBook ad templates"></figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 / GLOBAL CAMPAIGNS -->
+      <div class="acc" data-acc>
+        <div class="row acc-head" data-billow style="--bi:3" data-blip role="button" tabindex="0" aria-expanded="false" aria-controls="work-panel-4">
+          <span class="n">04</span><span class="nm">Global Campaigns</span><span class="gh">MULTI-MARKET · CAMPAIGN CREATIVE · MEASURABLE</span><span class="acc-icon" aria-hidden="true"></span>
+        </div>
+        <div class="acc-panel" id="work-panel-4" role="region" aria-label="Global Campaigns gallery">
+          <div class="acc-panel-inner">
+            <div class="gallery">
+              <figure class="shot"><img src="Work/Global%20Campaigns/Screen+Shot+2025-10-01+at+11.37.24+AM.webp" width="800" height="572" loading="lazy" alt="Global campaign"></figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 04 / EXPERIENCE -->
+<section id="experience" data-tone="stats" class="frame-fullbg">
+  <div class="frame">
+    <span class="pill reveal">04 / experience</span>
+    <p class="frame-statement reveal d1">A decade of craft — focused on the work that ships.</p>
+    <div class="grid">
+      <div class="stat reveal" data-blip><div class="n" data-count="10">0<span class="u">YRS</span></div><div class="d">of digital design experience across web, product &amp; marketing.</div></div>
+      <div class="stat reveal d1" data-blip><div class="n" data-count="5">0<span class="u">YRS</span></div><div class="d">concentrated in UI / UX design for apps &amp; B2B SaaS.</div></div>
+      <div class="stat reveal d2" data-blip><div class="n word" data-scrub-word>Agile</div><div class="d">fluent in fast, iterative settings — concept through engineering handoff.</div></div>
+      <div class="stat reveal d3" data-blip><div class="n word" data-scrub-word>SaaS</div><div class="d">subject-matter depth in supply chain, logistics &amp; operations software.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 / HOW I WORK -->
+<section id="approach" data-tone="craft">
+  <div class="frame">
+    <span class="pill reveal">05 / how i work</span>
+    <p class="frame-statement reveal d1">I speak the language of pixels — and bridge it with content that speaks to the heart of a brand.</p>
+    <div class="cols">
+      <div class="card reveal d1"><h3>Complex → Clear</h3><p>I convert dense, complicated ideas into visually stunning, intuitive designs that operational users move through with confidence.</p></div>
+      <div class="card reveal d2"><h3>End-to-End</h3><p>I own the full design lifecycle — from first concept and wireframes to hi-fi prototypes and clean engineering handoff.</p></div>
+      <div class="card reveal d3"><h3>Built to Scale</h3><p>Systems thinking, accessibility, and brand consistency baked in, so the work holds up as it grows across teams and markets.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 / PERSONAL NOTE -->
+<section id="note" data-tone="note" class="frame-fullbg">
+  <div class="frame">
+    <div class="note-title reveal" data-circle>
+      <svg viewBox="0 0 320 90" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M160 12 C 70 8, 14 26, 16 46 C 18 70, 110 82, 196 80 C 280 78, 312 60, 300 40 C 290 22, 220 9, 120 14" />
+      </svg>
+      <span class="pill">06 / personal note</span>
+    </div>
+    <p class="frame-statement reveal d1">I know firsthand how much Samsara's work matters. My father has driven trucks for <em>30+ years</em>. The technology Samsara builds keeps drivers like him safe — and that makes this personal.</p>
+  </div>
+</section>
+
+<!-- 07 / LET'S BUILD -->
+<section id="contact" data-tone="cta">
+  <div class="frame">
+    <span class="pill reveal">07 / let's build</span>
+    <p class="frame-statement reveal d1">Let's shape what makes freight &amp; logistics <span class="o">safer.</span></p>
+    <div class="links reveal d2">
+      <a href="mailto:victoria.ogbulu@gmail.com" data-blip>→ victoria.ogbulu@gmail.com</a>
+      <a href="https://linkedin.com/in/victoriaogbulu" target="_blank" rel="noopener" data-blip>LinkedIn ↗</a>
+      <a href="#" class="bare" data-portfolio data-blip>View full portfolio ↗</a>
+    </div>
+    <div class="colo">
+      <span>VICTORIA OGBULU — MULTI-DISCIPLINARY DESIGNER</span>
+      <span>EXCITED TO JOIN THE SAMSARA TEAM</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT MY COLLEAGUES ARE SAYING (scrolling testimonials) -->
+<section id="testimonials" data-tone="cta" class="testi">
+  <p class="testi-label reveal">What my colleagues are saying</p>
+  <div class="testi-carousel">
+    <button class="testi-arrow testi-prev" type="button" aria-label="Previous testimonials">&#8249;</button>
+    <div class="testi-viewport">
+      <div class="testi-track">
+
+      <figure class="testi-card">
+        <div class="testi-head">
+          <span class="testi-avatar" style="background:linear-gradient(135deg,#836fff,#b39dff)">HB</span>
+          <div class="testi-meta">
+            <span class="testi-name">Hannah Baker</span>
+            <span class="testi-role">Design Manager at Mouser Electronics</span>
+            <span class="testi-rel">Feb 2024 · Worked on the same team</span>
+          </div>
+        </div>
+        <blockquote class="testi-quote clamp">Victoria is a talented and creative designer. She brings enthusiasm and a fresh outlook to each project. She goes above and beyond to find solutions to challenging issues. Her branding expertise is always on-point and can bring value for each customer. I would highly recommend her!</blockquote>
+        <button class="testi-more" type="button">Read more</button>
+      </figure>
+
+      <figure class="testi-card">
+        <div class="testi-head">
+          <span class="testi-avatar" style="background:linear-gradient(135deg,#40c4b4,#2a9d8f)">BS</span>
+          <div class="testi-meta">
+            <span class="testi-name">Ben Santiago</span>
+            <span class="testi-role">Creative Lead with a Passion for Content Creation + Shining a Light + Being Kingdom-Driven</span>
+            <span class="testi-rel">Feb 2024 · Worked on the same team</span>
+          </div>
+        </div>
+        <blockquote class="testi-quote clamp">Victoria is a remarkably gifted graphic/web designer, brand specialist, and digital marketer. Spearheading several design projects for Apptricity, including email marketing campaigns, website redesigns, and UI/UX refreshes, her work is always stunning and constantly enhances the brand. She is an incredible teammate to have and a joy to be around. Any organization would be blessed to have her on their team!</blockquote>
+        <button class="testi-more" type="button">Read more</button>
+      </figure>
+
+      <figure class="testi-card">
+        <div class="testi-head">
+          <span class="testi-avatar" style="background:linear-gradient(135deg,#ff5aa0,#c44fff)">JK</span>
+          <div class="testi-meta">
+            <span class="testi-name">Jennifer Krajcirovic</span>
+            <span class="testi-role">Design Services Director</span>
+            <span class="testi-rel">Feb 2024 · Managed Victoria directly</span>
+          </div>
+        </div>
+        <blockquote class="testi-quote clamp">Victoria is a creative designer, excelling in UI/UX, graphics, ad production, and web design. While at Mouser, she delivered awesome user-friendly and creative designs. She's a strong communicator, team player, and brought infectious enthusiasm and a positive attitude to brainstorms and design collaborations. If you're looking for a designer who can bring creativity, expertise, and a positive spirit to your team, Tori is your girl!</blockquote>
+        <button class="testi-more" type="button">Read more</button>
+      </figure>
+
+      <figure class="testi-card">
+        <div class="testi-head">
+          <span class="testi-avatar" style="background:linear-gradient(135deg,#ffa03c,#ff7850)">PB</span>
+          <div class="testi-meta">
+            <span class="testi-name">Parish Brandt</span>
+            <span class="testi-role">Technical Writer | API &amp; SaaS Documentation | Video &amp; Instructional Content</span>
+            <span class="testi-rel">Feb 2024 · Worked on the same team</span>
+          </div>
+        </div>
+        <blockquote class="testi-quote clamp">Victoria's skills in UX Design and Web Development are nothing short of phenomenal. She has a keen eye for design and has made some of the most well thought out and visually appealing sites I have ever seen. On top of this she is one of the kindest and most hard working people to exist, and any team would be beyond lucky to have her in it.</blockquote>
+        <button class="testi-more" type="button">Read more</button>
+      </figure>
+
+      <figure class="testi-card">
+        <div class="testi-head">
+          <span class="testi-avatar" style="background:linear-gradient(135deg,#5ac8ff,#836fff)">RK</span>
+          <div class="testi-meta">
+            <span class="testi-name">Rani Kundaram</span>
+            <span class="testi-role">Quality Assurance Engineer | QA Analyst | QA Lead</span>
+            <span class="testi-rel">Feb 2024 · Worked across teams</span>
+          </div>
+        </div>
+        <blockquote class="testi-quote clamp">I've had the pleasure of working with Victoria in Apptricity. She demonstrates a remarkable ability to adapt to new technologies, trends, and methodologies in the rapidly evolving fields of UI/UX design, branding, and digital marketing. Her excellent communication skills, both verbal and written, allow her to effectively convey ideas and collaborate with team members. Additionally, she exhibits a talent for handling challenges and marketing campaigns in unique and effective ways. Overall, I recommend Victoria for any UI/UX design role.</blockquote>
+        <button class="testi-more" type="button">Read more</button>
+      </figure>
+
+      <figure class="testi-card">
+        <div class="testi-head">
+          <span class="testi-avatar" style="background:linear-gradient(135deg,#c88aff,#836fff)">WS</span>
+          <div class="testi-meta">
+            <span class="testi-name">Wendi Sabo</span>
+            <span class="testi-role">Executive Marketing Professional · Forbes Communications Council</span>
+            <span class="testi-rel">Mar 2024 · Managed Victoria directly</span>
+          </div>
+        </div>
+        <blockquote class="testi-quote clamp">I'm excited to share my enthusiastic recommendation for Victoria Ogbulu, whom I had the pleasure of working with at Apptricity. Victoria served as our Lead UI/UX Designer, Graphic Designer, and Brand Manager, and let me tell you, she's absolutely fantastic.<br><br>Victoria is hands down one of the best I've ever worked with. She's got this incredible knack for creativity, always coming up with fresh ideas and turning them into visually stunning designs. Whether it's crafting intuitive interfaces or creating captivating graphics, Victoria's attention to detail and commitment to quality shine through in everything she does.<br><br>But it's not just about her skills — Victoria's also one of the kindest and most approachable people you'll ever meet. She's always there to lend a hand, support her teammates, and go the extra mile to ensure everyone succeeds.<br><br>Victoria is a rockstar. Her creativity, speed, meticulousness, and all-around fabulousness make her an invaluable asset to any team. I can't recommend her highly enough!</blockquote>
+        <button class="testi-more" type="button">Read more</button>
+      </figure>
+
+      <figure class="testi-card">
+        <div class="testi-head">
+          <span class="testi-avatar" style="background:linear-gradient(135deg,#5b7cff,#8a6cff)">BG</span>
+          <div class="testi-meta">
+            <span class="testi-name">Brian Goodspeed</span>
+            <span class="testi-role">Lead Software Engineer · Web &amp; Mobile Solutions · JavaScript</span>
+            <span class="testi-rel">Feb 2024 · Worked across teams</span>
+          </div>
+        </div>
+        <blockquote class="testi-quote clamp">It was a pleasure working with Victoria. As the lead developer of the mobile team, it was great having a designer like Victoria. She has amazing vision and pays attention to details. In addition to her skills as a designer, she also exhibited effective communication skills. I would highly recommend Victoria, as she would be a valuable addition to any team.</blockquote>
+        <button class="testi-more" type="button">Read more</button>
+      </figure>
+
+      </div>
+    </div>
+    <button class="testi-arrow testi-next" type="button" aria-label="Next testimonials">&#8250;</button>
+  </div>
+</section>
+
+<!-- TRUSTED BY MARQUEE (footer band) -->
+<section id="trusted" data-tone="cta" class="trusted-by">
+  <p class="trusted-label reveal">My work has been trusted by leaders in the technology, beauty and wellness space for a decade. <em>Let's build something great together.</em></p>
+  <div class="marquee">
+    <div class="marquee-track">
+      <img src="M-mouser-electronics-single-black.png" alt="Mouser Electronics" class="brand-logo">
+      <img src="Appt-Logo-2.png" alt="Apptricity" class="brand-logo">
+      <img src="Mary-Kay-logo.png" alt="Mary Kay" class="brand-logo">
+      <img src="sunriderlogo.svg" alt="Sunrider" class="brand-logo">
+      <img src="checkout-CRC-Logo.avif" alt="Camera Ready Cosmetics" class="brand-logo">
+      <img src="M-mouser-electronics-single-black.png" alt="" class="brand-logo" aria-hidden="true">
+      <img src="Appt-Logo-2.png" alt="" class="brand-logo" aria-hidden="true">
+      <img src="Mary-Kay-logo.png" alt="" class="brand-logo" aria-hidden="true">
+      <img src="sunriderlogo.svg" alt="" class="brand-logo" aria-hidden="true">
+      <img src="checkout-CRC-Logo.avif" alt="" class="brand-logo" aria-hidden="true">
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Project image">
+  <button class="lightbox-close" aria-label="Close image">&times;</button>
+  <button class="lb-nav lb-prev" aria-label="Previous image">&#8249;</button>
+  <img src="" alt="">
+  <button class="lb-nav lb-next" aria-label="Next image">&#8250;</button>
+  <span class="lb-count" aria-hidden="true"></span>
+</div>
+
+<button class="to-top" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,c){return (c||document).querySelector(s);};
+  var $$=function(s,c){return [].slice.call((c||document).querySelectorAll(s));};
+  function safe(fn){try{fn();}catch(e){}}
+
+  // ---- reveal on scroll ----
+  safe(function(){
+    if(!('IntersectionObserver' in window)){
+      $$('.reveal').forEach(function(el){el.classList.add('in');});
+      $$('[data-billow]').forEach(function(el){el.classList.add('billow');});
+      return;
+    }
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.16});
+    $$('.reveal').forEach(function(el){io.observe(el);});
+    var bo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('billow');bo.unobserve(e.target);}});},{threshold:.25});
+    $$('[data-billow]').forEach(function(el){bo.observe(el);});
+  });
+
+  // ---- split scrub paragraphs into words ----
+  var scrubs=[];
+  safe(function(){
+    $$('[data-scrub]').forEach(function(p){
+      var words=p.textContent.trim().split(/\s+/);
+      p.innerHTML=words.map(function(w){
+        var cls='w';
+        if(w.charAt(0)==='*'){cls+=' wb';w=w.slice(1);}
+        else if(w.charAt(0)==='~'){cls+=' wp';w=w.slice(1);}
+        return '<span class="'+cls+'">'+w+'</span>';
+      }).join(' ');
+    });
+    scrubs=$$('[data-scrub]');
+  });
+  function runScrub(){
+    var vh=window.innerHeight;
+    scrubs.forEach(function(p){
+      var ws=$$('.w',p), r=p.getBoundingClientRect();
+      var sa=p.getAttribute('data-scrub-start'), ea=p.getAttribute('data-scrub-end');
+      var start=vh*(sa?+sa:0.82), end=vh*(ea?+ea:0.36);
+      var prog=Math.min(1,Math.max(0,(start-r.top)/(start-end+r.height)));
+      var min=+(p.getAttribute('data-scrub-min')||0);
+      var n=Math.max(min,Math.round(prog*ws.length));
+      ws.forEach(function(w,i){w.classList.toggle('lit',i<n);});
+    });
+  }
+
+  // ---- hand-drawn circle around personal-note pill (draws on as section scrolls in) ----
+  var runCircle=null;
+  safe(function(){
+    var circle=$('[data-circle] path');
+    if(!circle||typeof circle.getTotalLength!=='function')return;
+    var len=circle.getTotalLength();
+    if(!len||!isFinite(len))return;
+    circle.style.setProperty('--len',len);
+    var sec=$('#note');
+    if(!sec)return;
+    runCircle=function(){
+      var r=sec.getBoundingClientRect(), vh=window.innerHeight;
+      var start=vh*0.75, end=vh*0.30;
+      var prog=Math.min(1,Math.max(0,(start-r.top)/(start-end)));
+      circle.style.strokeDashoffset=len*(1-prog);
+    };
+  });
+
+  // ---- trusted-by marquee opacity scrub (dim → full as band crosses viewport) ----
+  var trustedEl=$('.trusted-by');
+  function runTrusted(){
+    if(!trustedEl)return;
+    var r=trustedEl.getBoundingClientRect(), vh=window.innerHeight;
+    var start=vh*0.85, end=vh*0.4;
+    var prog=Math.min(1,Math.max(0,(start-r.top)/(start-end+r.height)));
+    var op=0.32+0.68*prog;
+    trustedEl.style.setProperty('--trusted-op',op);
+  }
+
+  // ---- scrub-word (Agile / SaaS) — letter-by-letter purple → white as it scrolls in ----
+  var scrubWords=$$('[data-scrub-word]');
+  safe(function(){
+    scrubWords.forEach(function(el){
+      var text=el.textContent;
+      el.innerHTML=text.split('').map(function(c,i){
+        return '<span class="l" style="--i:'+i+'">'+(c===' '?'&nbsp;':c)+'</span>';
+      }).join('');
+    });
+  });
+  function runScrubWords(){
+    var vh=window.innerHeight;
+    scrubWords.forEach(function(el){
+      var letters=$$('.l',el);
+      if(!letters.length)return;
+      var r=el.getBoundingClientRect();
+      /* progress across the section's pass through the viewport */
+      var start=vh*0.78, end=vh*0.30;
+      var prog=Math.min(1,Math.max(0,(start-r.top)/(start-end)));
+      var n=Math.round(prog*letters.length);
+      letters.forEach(function(l,i){l.classList.toggle('lit',i<n);});
+    });
+  }
+
+  // ---- counters ----
+  var counted=[];
+  function runCounters(){
+    $$('[data-count]').forEach(function(el){
+      if(counted.indexOf(el)>-1)return;
+      var r=el.getBoundingClientRect();
+      if(r.top<window.innerHeight*0.85){
+        counted.push(el);
+        var target=+el.dataset.count, dur=1100, t0=performance.now();
+        var u=el.querySelector('.u'); var unit=u?u.outerHTML:'';
+        (function tick(now){
+          var k=Math.min(1,(now-t0)/dur);
+          var ease=1-Math.pow(1-k,3);
+          el.innerHTML=Math.round(target*ease)+unit;
+          if(k<1)requestAnimationFrame(tick);
+        })(performance.now());
+      }
+    });
+  }
+
+  // ---- TYPEWRITER ----
+  safe(function(){
+    $$('[data-typewriter]').forEach(function(el){
+      var text=el.getAttribute('data-typewriter');
+      el.textContent='';
+      var i=0, base=105;
+      setTimeout(function step(){
+        if(i>=text.length)return;
+        var ch=text.charAt(i);
+        el.textContent=text.slice(0,++i);
+        /* deliberate cadence — punctuation gets a beat, mimics natural reading */
+        var delay=base+(ch===','||ch===';'?320:0)+(ch==='.'?500:0);
+        setTimeout(step,delay);
+      },1100);
+    });
+  });
+
+  // ---- HERO VIDEO at 2x speed ----
+  safe(function(){
+    var iv=$('.intro-bg');
+    if(!iv)return;
+    function rate(){try{iv.playbackRate=2;}catch(e){}}
+    rate();
+    /* browsers reset playbackRate across these events, so reassert on each */
+    ['loadedmetadata','loadeddata','canplay','play'].forEach(function(ev){iv.addEventListener(ev,rate);});
+  });
+
+  // ---- HERO LOGO resolves to FULL colour after the intro animation ----
+  safe(function(){
+    if(!$('.glass-bloom'))return;
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    function toFull(){
+      var start=glassHeroOp, t0=performance.now(), dur=reduce?1:750;
+      (function tick(now){
+        var k=Math.min(1,(now-t0)/dur), ease=1-Math.pow(1-k,3);
+        glassHeroOp=start+(1-start)*ease;   /* lifts the hero glass from translucent → opaque */
+        safe(runDock);
+        if(k<1)requestAnimationFrame(tick);
+      })(performance.now());
+    }
+    /* bloomIn = 1.3s delay + 1.1s play; a timer (not animationend) lifts it to full colour
+       just after it lands — robust even under reduced-motion or if the event doesn't fire */
+    setTimeout(toFull, reduce?60:2500);
+  });
+
+  // ---- LOGO DOCK (huge centered → small top-left) ----
+  var logoEl=$('header .logo'), logoSvg=logoEl?logoEl.querySelector('.logo-svg'):null;
+  var logoText=logoSvg?logoSvg.querySelector('text'):null;
+  var logoFill=logoSvg?logoSvg.querySelector('.logo-fill'):null;
+  var logoGlass=logoSvg?logoSvg.querySelector('.logo-glass'):null;
+  var strokeWrap=logoSvg?logoSvg.querySelector('.stroke-wrap'):null;
+  var navEl=$('.navlinks'), menuEl=$('.menu-btn'), mouseEl=$('.mouse-scroll');
+  function clamp01(x){return x<0?0:(x>1?1:x);}
+  /* hero glass starts translucent (video shines through) then resolves to full colour
+     after the intro animation — glassHeroOp tweens GLASS_OP → 1 on bloom completion */
+  var GLASS_OP=0.62, glassHeroOp=GLASS_OP;
+  /* SVG viewBox dimensions */
+  var VB_W=230, VB_H=26;
+  /* Where the TEXT's visual center sits inside the viewBox (0..1), and its width as a ratio.
+     Initialized to viewBox-perfect, refined after layout via getBBox(). */
+  var textCenterRatio=0.5, textWidthRatio=1, textHeightRatio=1;
+  function measureLogo(){
+    if(!logoEl||!logoSvg||!logoText)return;
+    var prevH=logoSvg.style.height, prevL=logoEl.style.left, prevT=logoEl.style.top, prevV=logoEl.style.visibility;
+    logoEl.style.visibility='hidden';
+    logoEl.style.left='-9999px'; logoEl.style.top='0';
+    logoSvg.style.height='100px';
+    void logoSvg.offsetHeight; /* force layout */
+    try{
+      var bb=logoText.getBBox();
+      if(bb.width>0 && bb.height>0){
+        textCenterRatio=(bb.x+bb.width/2)/VB_W;
+        textWidthRatio=bb.width/VB_W;
+        textHeightRatio=bb.height/VB_H;
+      }
+    }catch(e){}
+    logoSvg.style.height=prevH; logoEl.style.left=prevL; logoEl.style.top=prevT; logoEl.style.visibility=prevV;
+  }
+  function runDock(){
+    if(!logoEl||!logoSvg)return;
+    var sy=window.pageYOffset||document.documentElement.scrollTop||0;
+    var vh=window.innerHeight, vw=window.innerWidth;
+    var raw=Math.min(1, sy/(vh*0.85));
+    /* easeOutQuart — quick zoom-out, slow elegant settle */
+    var p=1-Math.pow(1-raw,4);
+    /* SVG rendered height; width auto-scales by viewBox aspect */
+    var maxH=Math.min(vh*0.14, vw*0.10);
+    var minH=36;
+    var h=minH+(maxH-minH)*(1-p);
+    var svgW=h*(VB_W/VB_H);
+    logoSvg.style.height=h+'px';
+    /* Center the TEXT visually (not the SVG box) by accounting for where the glyphs actually sit inside the viewBox */
+    var textCenterPxInSvg=svgW*textCenterRatio;
+    var rem=parseFloat(getComputedStyle(document.documentElement).fontSize)||16;
+    var pad=(sy>40?rem*0.9:rem*1.2);
+    /* Docked: align the text-left to 6vw (so visual padding matches nav padding) */
+    var textWidthPx=svgW*textWidthRatio;
+    var textLeftInSvg=svgW*((textCenterRatio)-(textWidthRatio/2));
+    var dockedX=vw*0.06-textLeftInSvg;
+    var dockedY=pad;
+    /* Intro: center the full wordmark image in the viewport (logo center at 42vh) */
+    var introX=vw/2-svgW/2, introY=vh*0.42-h/2;
+    logoEl.style.left=(dockedX+(introX-dockedX)*(1-p))+'px';
+    logoEl.style.top =(dockedY+(introY-dockedY)*(1-p))+'px';
+    logoEl.classList.add('ready');
+    /* dock crossfade: hero shows the glass wordmark + drawn stroke; as it docks they
+       fade out and the original white/purple wordmark fades in for the nav. each layer's
+       entrance lives on its CSS wrapper, so these JS opacities multiply with no handoff. */
+    /* mobile hero shows the full-color glass logo at 100% opacity (no see-through);
+       desktop keeps it translucent so the video shines through */
+    var glassMax=(vw<=760)?1:glassHeroOp;
+    if(logoGlass)  logoGlass.style.opacity =(clamp01(1-p*1.5)*glassMax).toFixed(3);
+    if(strokeWrap) strokeWrap.style.opacity=clamp01(1-p*1.5).toFixed(3);
+    if(logoFill)   logoFill.style.opacity  =clamp01((p-0.45)/0.45).toFixed(3);
+    /* nav fades in only when dock is essentially complete */
+    var navO=Math.min(1,Math.max(0,(p-0.78)/0.22));
+    if(navEl){
+      navEl.style.opacity=navO;
+      navEl.classList.toggle('docked',navO>0.95);
+    }
+    if(menuEl) menuEl.classList.toggle('docked',navO>0.95);
+    /* mouse scroll cue fades as soon as user starts scrolling down */
+    if(mouseEl){
+      var cueO=Math.max(0,1-raw*3.2);
+      mouseEl.style.opacity=cueO;
+      mouseEl.style.pointerEvents=cueO<0.05?'none':'';
+    }
+  }
+
+  // ---- WORK ACCORDION (single-open) ----
+  safe(function(){
+    var accs=$$('[data-acc]');
+    function toggle(acc){
+      var willOpen=!acc.classList.contains('open');
+      accs.forEach(function(a){
+        a.classList.remove('open');
+        var h=$('.acc-head',a); if(h)h.setAttribute('aria-expanded','false');
+      });
+      if(willOpen){
+        acc.classList.add('open');
+        var h=$('.acc-head',acc); if(h)h.setAttribute('aria-expanded','true');
+      }
+    }
+    var canHover=window.matchMedia&&window.matchMedia('(hover:hover)').matches;
+    accs.forEach(function(acc){
+      var head=$('.acc-head',acc); if(!head)return;
+      /* on hover-capable pointers, CSS :hover opens/closes — skip click so it doesn't lock open */
+      head.addEventListener('click',function(){if(!canHover)toggle(acc);});
+      head.addEventListener('keydown',function(e){
+        if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault();toggle(acc);}
+      });
+    });
+  });
+
+  // ---- LIGHTBOX (click a gallery shot → full screen; ←/→, swipe or arrows to browse the gallery) ----
+  safe(function(){
+    var lb=$('.lightbox'); if(!lb)return;
+    var lbImg=lb.querySelector('img'), closeBtn=lb.querySelector('.lightbox-close');
+    var prevBtn=lb.querySelector('.lb-prev'), nextBtn=lb.querySelector('.lb-next'), count=lb.querySelector('.lb-count');
+    var group=[], idx=0;
+    function render(){
+      var img=group[idx]; if(!img)return;
+      lbImg.src=img.currentSrc||img.src; lbImg.alt=img.alt||'';
+      var multi=group.length>1;
+      if(prevBtn)prevBtn.hidden=!multi;
+      if(nextBtn)nextBtn.hidden=!multi;
+      if(count)count.textContent=multi?(idx+1)+' / '+group.length:'';
+    }
+    function go(d){ if(group.length<2)return; idx=(idx+d+group.length)%group.length; render(); }
+    function open(img){
+      var gal=img.closest('.gallery');
+      group=gal?[].slice.call(gal.querySelectorAll('.shot img')):[img];
+      idx=group.indexOf(img); if(idx<0)idx=0;
+      render();
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+    }
+    function close(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');document.body.style.overflow='';
+      setTimeout(function(){if(!lb.classList.contains('open'))lbImg.removeAttribute('src');},360);}
+    $$('.gallery .shot img').forEach(function(img){
+      img.addEventListener('click',function(e){e.stopPropagation();open(img);});
+    });
+    if(prevBtn)prevBtn.addEventListener('click',function(e){e.stopPropagation();go(-1);});
+    if(nextBtn)nextBtn.addEventListener('click',function(e){e.stopPropagation();go(1);});
+    /* click the backdrop or the photo to close; arrows/close-button are excluded */
+    lb.addEventListener('click',function(e){if(e.target.closest('.lb-nav')||e.target===closeBtn)return;close();});
+    if(closeBtn)closeBtn.addEventListener('click',function(e){e.stopPropagation();close();});
+    document.addEventListener('keydown',function(e){
+      if(!lb.classList.contains('open'))return;
+      if(e.key==='Escape')close();
+      else if(e.key==='ArrowLeft')go(-1);
+      else if(e.key==='ArrowRight')go(1);
+    });
+    /* touch swipe left/right */
+    var tx=null;
+    lb.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+    lb.addEventListener('touchend',function(e){
+      if(tx===null)return; var dx=e.changedTouches[0].clientX-tx; tx=null;
+      if(Math.abs(dx)>40)go(dx<0?1:-1);
+    },{passive:true});
+  });
+
+  // ---- TESTIMONIALS: auto-scroll carousel + arrows + read more ----
+  safe(function(){
+    var carousel=$('.testi-carousel'); if(!carousel)return;
+    var vp=$('.testi-viewport',carousel), track=$('.testi-track',carousel);
+    if(!vp||!track)return;
+    var origCount=$$('.testi-card',track).length;
+    /* duplicate the set so the scroll loops seamlessly */
+    $$('.testi-card',track).forEach(function(c){
+      var clone=c.cloneNode(true); clone.setAttribute('aria-hidden','true'); track.appendChild(clone);
+    });
+    var cards=$$('.testi-card',track);
+    /* exact width of one full set (incl. the gap that follows it) — the seamless wrap distance */
+    function wrapDist(){ return cards[origCount].offsetLeft - cards[0].offsetLeft; }
+    function step(){ return cards[0].getBoundingClientRect().width + 25; }
+    /* read-more toggles */
+    cards.forEach(function(card){
+      var q=$('.testi-quote',card), btn=$('.testi-more',card);
+      if(!q||!btn)return;
+      if(q.scrollHeight<=q.clientHeight+2){btn.hidden=true;return;}
+      btn.addEventListener('click',function(e){
+        e.stopPropagation();
+        var exp=card.classList.toggle('expanded');
+        btn.textContent=exp?'Read less':'Read more';
+      });
+    });
+    /* gentle auto-scroll; pauses on hover, on touch, and while a quote is expanded */
+    var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var hover=false, interactUntil=0, SPEED=0.6;
+    function isPaused(){ return reduce||hover||performance.now()<interactUntil||!!track.querySelector('.testi-card.expanded'); }
+    function loop(){
+      if(!isPaused()){
+        vp.scrollLeft+=SPEED;
+        var w=wrapDist();
+        if(w>0 && vp.scrollLeft>=w) vp.scrollLeft-=w;
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+    carousel.addEventListener('mouseenter',function(){hover=true;});
+    carousel.addEventListener('mouseleave',function(){hover=false;});
+    vp.addEventListener('touchstart',function(){hover=true;},{passive:true});
+    vp.addEventListener('touchend',function(){hover=false;interactUntil=performance.now()+1500;},{passive:true});
+    /* arrow navigation */
+    function nudge(dir){
+      var w=wrapDist();
+      if(dir<0 && vp.scrollLeft<step() && w>0) vp.scrollLeft+=w; /* hop one set over so there's room to go left, seamlessly */
+      interactUntil=performance.now()+1200;
+      vp.scrollBy({left:dir*step(),behavior:'smooth'});
+    }
+    var prev=$('.testi-prev',carousel), next=$('.testi-next',carousel);
+    if(prev)prev.addEventListener('click',function(){nudge(-1);});
+    if(next)next.addEventListener('click',function(){nudge(1);});
+  });
+
+  // ---- portfolio link reminder ----
+  safe(function(){
+    var pf=$('[data-portfolio]');
+    if(pf)pf.addEventListener('click',function(e){e.preventDefault();alert('Set this to your Squarespace portfolio URL in index.html (search: data-portfolio).');});
+  });
+
+  // ---- NAVIGATION ----
+  var header=$('#top'), menuBtn=$('.menu-btn'), overlay=$('.overlay');
+  var sections=$$('section[data-tone]'), navAnchors=$$('.navlinks a'), toTop=$('.to-top');
+
+  function closeMenu(){if(!menuBtn||!overlay)return;menuBtn.classList.remove('open');overlay.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');overlay.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+  function openMenu(){if(!menuBtn||!overlay)return;menuBtn.classList.add('open');overlay.classList.add('open');menuBtn.setAttribute('aria-expanded','true');overlay.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+
+  safe(function(){
+    if(menuBtn)menuBtn.addEventListener('click',function(){menuBtn.classList.contains('open')?closeMenu():openMenu();});
+  });
+
+  safe(function(){
+    if(toTop)toTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  });
+
+  safe(function(){
+    $$('[data-nav]').forEach(function(a){
+      a.addEventListener('click',function(e){
+        var id=a.getAttribute('href');
+        if(id&&id.charAt(0)==='#'){
+          e.preventDefault();
+          var tgt=document.querySelector(id);
+          if(tgt&&tgt.scrollIntoView){tgt.scrollIntoView({behavior:'smooth',block:'start'});}
+          else if(tgt){window.scrollTo(0,tgt.offsetTop);}
+          closeMenu();
+        }
+      });
+    });
+  });
+
+  function runNav(){
+    if(!header)return;
+    var y=window.pageYOffset||document.documentElement.scrollTop;
+    header.classList.toggle('scrolled',y>40);
+    if(toTop)toTop.classList.toggle('show',y>window.innerHeight*0.8);
+    var mid=y+window.innerHeight*0.4, current=sections[0];
+    sections.forEach(function(s){if(s.offsetTop<=mid)current=s;});
+    if(current){
+      var tone=current.getAttribute('data-tone')||'hero';
+      if(document.body.getAttribute('data-tone')!==tone)document.body.setAttribute('data-tone',tone);
+      var id='#'+(current.id||'intro');
+      navAnchors.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')===id);});
+    }
+  }
+
+  // ---- BACKGROUND DRIFT ----
+  var bgGlow=$('.backdrop .glow');
+  function runDrift(){
+    if(!bgGlow)return;
+    var sy=window.pageYOffset||document.documentElement.scrollTop||0;
+    var vh=window.innerHeight, vw=window.innerWidth;
+    var dy=Math.min(vh*0.30,sy*0.10);
+    var dx=Math.max(-vw*0.30,-sy*0.07);
+    bgGlow.style.transform='translate3d('+dx+'px,'+dy+'px,0)';
+  }
+
+  // ---- SCROLL LOOP ----
+  var ticking=false;
+  function onScroll(){
+    if(ticking)return;ticking=true;
+    requestAnimationFrame(function(){
+      safe(runDock);safe(runScrub);safe(runScrubWords);safe(runTrusted);safe(runCounters);if(runCircle)safe(runCircle);safe(runNav);safe(runDrift);
+      ticking=false;
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',function(){measureLogo();onScroll();},{passive:true});
+
+  // ---- INIT ----
+  measureLogo();
+  document.body.setAttribute('data-tone','hero');
+  onScroll();
+  // re-measure once fonts/SVG are fully painted
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(function(){measureLogo();onScroll();});}
+  window.addEventListener('load',function(){measureLogo();onScroll();});
+})();
+</script>
+</body>
+</html>
