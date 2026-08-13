@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mouser — victoriasadesign.com</title>
+<meta name="description" content="UI/UX, ad campaigns and print design for Mouser Electronics by Victoria Ogbulu." />
+<link rel="icon" type="image/png" href="images/vo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="project.css" />
+</head>
+<body>
+<header id="hdr">
+  <a class="brand" href="index.html" aria-label="Victoria Sadé home"><img src="images/header.webp" alt="Victoria Sadé" /></a>
+  <button class="nav-toggle" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">≡</button>
+  <nav><ul>
+    <li><a href="index.html#work">Work</a></li>
+    <li class="nav-folder" tabindex="0"><span>Case Studies</span>
+      <div class="drop"><a href="mary-kay-cosmetics.html">Mary Kay Cosmetics</a></div>
+    </li>
+    <li class="nav-folder" tabindex="0"><span>Recent Work</span>
+      <div class="drop">
+        <a href="sunrider.html">Sunrider</a>
+        <a href="apptricity.html">Apptricity</a>
+        <a href="mary-kay.html">Mary Kay</a>
+        <a class="here" href="mouser.html">Mouser</a>
+      </div>
+    </li>
+    <li><a href="resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+    <li><a href="mailto:victoriasade89@gmail.com">Contact</a></li>
+  </ul></nav>
+</header>
+
+<main>
+  <section class="p-band p-band--img" style="background-image:url('images/projects/mouser/01.png')">
+    <a class="p-back" href="index.html#work">← All work</a>
+    <h1>Mouser Electronics</h1>
+  </section>
+  <section class="p-subband">
+    <p class="over">Overview</p>
+    <p class="byline">Work by <b>Victoria Ogbulu</b> for Mouser Electronics</p>
+  </section>
+  <section class="impact">
+    <div class="impact-item">
+      <span class="impact-num">01</span>
+      <h2>The Problem</h2>
+      <p>Mouser needed to make highly technical electronic-component content engaging for engineers and buyers, and to promote campaigns like "What's your Tech Quotient?" consistently across digital and print — without the material feeling dry or off-brand.</p>
+    </div>
+    <div class="impact-item">
+      <span class="impact-num">02</span>
+      <h2>The Solve</h2>
+      <p>I designed the "Tech Quotient" campaign creative and a system of ad and eBook templates — bold, on-brand layouts with playful, science-themed visuals — spanning app-store promos, PR templates, and print, alongside supporting UI/UX work for the platform.</p>
+    </div>
+    <div class="impact-item">
+      <span class="impact-num">03</span>
+      <h2>The Impact</h2>
+      <p>A cohesive, high-energy campaign and template system that makes complex technical offerings approachable, boosts engagement with the Tech Quotient game, and gives Mouser reusable assets that keep marketing consistent at scale.</p>
+    </div>
+  </section>
+
+  <section class="p-media grid3">
+    <img src="images/projects/mouser/02.png" alt="What's your Tech Quotient? campaign" loading="lazy" />
+    <img src="images/projects/mouser/03.png" alt="Tech Quotient PR templates" loading="lazy" />
+    <img src="images/projects/mouser/04.png" alt="Concept to Creation eBook ad templates" loading="lazy" />
+  </section>
+</main>
+
+<footer>
+  <div class="cta">Let's work together.</div>
+  <a class="mail" href="mailto:victoriasade89@gmail.com">victoriasade89@gmail.com</a>
+  <div class="foot-nav"><a href="index.html#work">Work</a><a href="resume.pdf" target="_blank" rel="noopener">Résumé</a><a href="mailto:victoriasade89@gmail.com">Contact</a></div>
+  <div class="copy">© <span id="yr"></span> Victoria Ogbulu · victoriasadesign.com</div>
+</footer>
+<script>const h=document.getElementById('hdr');addEventListener('scroll',()=>h.classList.toggle('scrolled',scrollY>10));document.getElementById('yr').textContent=new Date().getFullYear();document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));</script>
+<script src="anim.js"></script>
+</body>
+</html>

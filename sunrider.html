@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunrider — victoriasadesign.com</title>
+<meta name="description" content="Email marketing and campaign design for Sunrider International by Victoria Ogbulu." />
+<link rel="icon" type="image/png" href="images/vo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="project.css" />
+</head>
+<body>
+<header id="hdr">
+  <a class="brand" href="index.html" aria-label="Victoria Sadé home"><img src="images/header.webp" alt="Victoria Sadé" /></a>
+  <button class="nav-toggle" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">≡</button>
+  <nav><ul>
+    <li><a href="index.html#work">Work</a></li>
+    <li class="nav-folder" tabindex="0"><span>Case Studies</span>
+      <div class="drop"><a href="mary-kay-cosmetics.html">Mary Kay Cosmetics</a></div>
+    </li>
+    <li class="nav-folder" tabindex="0"><span>Recent Work</span>
+      <div class="drop">
+        <a class="here" href="sunrider.html">Sunrider</a>
+        <a href="apptricity.html">Apptricity</a>
+        <a href="mary-kay.html">Mary Kay</a>
+        <a href="mouser.html">Mouser</a>
+      </div>
+    </li>
+    <li><a href="resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+    <li><a href="mailto:victoriasade89@gmail.com">Contact</a></li>
+  </ul></nav>
+</header>
+
+<main>
+  <section class="p-band">
+    <a class="p-back" href="index.html#work">← All work</a>
+    <p class="byline">Design work by <b>Victoria Ogbulu</b> for Sunrider International</p>
+    <h1>Sunrider International</h1>
+  </section>
+  <section class="impact">
+    <div class="impact-item">
+      <span class="impact-num">01</span>
+      <h2>The Problem</h2>
+      <p>Sunrider needed to promote a broad range of wellness products and drive registrations for its 2025 Grand Convention across a global, multilingual audience — but its email marketing lacked a cohesive, on-brand system that could scale across product lines, languages, and campaign types.</p>
+    </div>
+    <div class="impact-item">
+      <span class="impact-num">02</span>
+      <h2>The Solve</h2>
+      <p>I designed a library of modular email templates — product spotlights (Collagen Biotin, Spinach Iron), convention announcements, and leadership-summit invitations — built on one consistent visual system with clear hierarchy, strong calls to action, and layouts that adapted cleanly across products and locales.</p>
+    </div>
+    <div class="impact-item">
+      <span class="impact-num">03</span>
+      <h2>The Impact</h2>
+      <p>A reusable, brand-consistent email system that let Sunrider launch campaigns faster, present products with a premium and trustworthy look, and drive engagement and event registrations for the Grand Convention and beyond.</p>
+    </div>
+  </section>
+
+  <section class="p-media grid2">
+    <img src="images/projects/sunrider/01.png" alt="Collagen Biotin email" loading="lazy" />
+    <img src="images/projects/sunrider/02.jpg" alt="Convention email 6" loading="lazy" />
+    <img src="images/projects/sunrider/03.png" alt="Convention email 7" loading="lazy" />
+    <img src="images/projects/sunrider/04.png" alt="Collagen Biotin email 4" loading="lazy" />
+    <img src="images/projects/sunrider/05.png" alt="Convention email 10" loading="lazy" />
+    <img src="images/projects/sunrider/06.png" alt="Spinach Iron proof" loading="lazy" />
+    <img src="images/projects/sunrider/07.png" alt="Campaign preview" loading="lazy" />
+    <img src="images/projects/sunrider/08.jpg" alt="Leadership Summit email 5" loading="lazy" />
+    <img src="images/projects/sunrider/09.png" alt="Campaign 1" loading="lazy" />
+    <img src="images/projects/sunrider/10.png" alt="Campaign 2" loading="lazy" />
+  </section>
+</main>
+
+<footer>
+  <div class="cta">Let's work together.</div>
+  <a class="mail" href="mailto:victoriasade89@gmail.com">victoriasade89@gmail.com</a>
+  <div class="foot-nav"><a href="index.html#work">Work</a><a href="resume.pdf" target="_blank" rel="noopener">Résumé</a><a href="mailto:victoriasade89@gmail.com">Contact</a></div>
+  <div class="copy">© <span id="yr"></span> Victoria Ogbulu · victoriasadesign.com</div>
+</footer>
+<script>const h=document.getElementById('hdr');addEventListener('scroll',()=>h.classList.toggle('scrolled',scrollY>10));document.getElementById('yr').textContent=new Date().getFullYear();document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));</script>
+<script src="anim.js"></script>
+</body>
+</html>

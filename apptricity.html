@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Apptricity — victoriasadesign.com</title>
+<meta name="description" content="UI/UX design, user flows and brand assets for Apptricity Supply Chain Management by Victoria Ogbulu." />
+<link rel="icon" type="image/png" href="images/vo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="project.css" />
+</head>
+<body>
+<header id="hdr">
+  <a class="brand" href="index.html" aria-label="Victoria Sadé home"><img src="images/header.webp" alt="Victoria Sadé" /></a>
+  <button class="nav-toggle" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">≡</button>
+  <nav><ul>
+    <li><a href="index.html#work">Work</a></li>
+    <li class="nav-folder" tabindex="0"><span>Case Studies</span>
+      <div class="drop"><a href="mary-kay-cosmetics.html">Mary Kay Cosmetics</a></div>
+    </li>
+    <li class="nav-folder" tabindex="0"><span>Recent Work</span>
+      <div class="drop">
+        <a href="sunrider.html">Sunrider</a>
+        <a class="here" href="apptricity.html">Apptricity</a>
+        <a href="mary-kay.html">Mary Kay</a>
+        <a href="mouser.html">Mouser</a>
+      </div>
+    </li>
+    <li><a href="resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+    <li><a href="mailto:victoriasade89@gmail.com">Contact</a></li>
+  </ul></nav>
+</header>
+
+<main>
+  <section class="p-band">
+    <a class="p-back" href="index.html#work">← All work</a>
+    <p class="byline">Design work by <b>Victoria Ogbulu</b> for Apptricity</p>
+    <h1>Apptricity Supply Chain Management</h1>
+  </section>
+  <section class="impact">
+    <div class="impact-item">
+      <span class="impact-num">01</span>
+      <h2>The Problem</h2>
+      <p>Apptricity's supply-chain platform packed powerful functionality into a dense, dated interface. The legacy dashboard overwhelmed users with cluttered panels and made core tasks — asset tracking, approvals, reporting — harder than they needed to be.</p>
+    </div>
+    <div class="impact-item">
+      <span class="impact-num">02</span>
+      <h2>The Solve</h2>
+      <p>I audited the existing "before" experience, mapped the key user flows (including an MQL chat-bot flow), and redesigned the dashboard and mobile app around clarity — a cleaner information hierarchy, modern components, map-based asset views, and a refreshed brand system, all validated through high-fidelity prototypes.</p>
+    </div>
+    <div class="impact-item">
+      <span class="impact-num">03</span>
+      <h2>The Impact</h2>
+      <p>A modernized, intuitive platform that surfaces critical data at a glance, streamlines asset management across desktop and mobile, and gives Apptricity a polished, enterprise-ready product to bring to customers.</p>
+    </div>
+  </section>
+
+  <section class="p-media">
+    <div class="figframe figframe--tall"><iframe title="Apptricity Asset Mobile Refresh prototype" loading="lazy" allowfullscreen src="https://embed.figma.com/proto/PTMqcDIQ4zmOw6ZDgvmaWs/Asset-Mobile-Refresh--Copy-?node-id=310-1631&scaling=scale-down&content-scaling=fixed&page-id=310%3A1618&starting-point-node-id=310%3A1631&embed-host=share"></iframe></div>
+    <img src="images/projects/apptricity/02.png" alt="Apptricity dashboard — before and after redesign" loading="lazy" />
+    <img src="images/projects/apptricity/04.png" alt="Apptricity desktop and mobile app" loading="lazy" />
+  </section>
+</main>
+
+<footer>
+  <div class="cta">Let's work together.</div>
+  <a class="mail" href="mailto:victoriasade89@gmail.com">victoriasade89@gmail.com</a>
+  <div class="foot-nav"><a href="index.html#work">Work</a><a href="resume.pdf" target="_blank" rel="noopener">Résumé</a><a href="mailto:victoriasade89@gmail.com">Contact</a></div>
+  <div class="copy">© <span id="yr"></span> Victoria Ogbulu · victoriasadesign.com</div>
+</footer>
+<script>const h=document.getElementById('hdr');addEventListener('scroll',()=>h.classList.toggle('scrolled',scrollY>10));document.getElementById('yr').textContent=new Date().getFullYear();document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));</script>
+<script src="anim.js"></script>
+</body>
+</html>
