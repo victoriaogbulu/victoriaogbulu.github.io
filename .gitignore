@@ -5,3 +5,18 @@
 # Unused large source videos — exceed GitHub's 100MB file limit and are not referenced by the site
 Fractal_Glass_07.mov
 global-technology-network-world-map-vertical-backg-2026-04-14-01-41-54-utc.mov
+
+# Working documents. This repo is PUBLIC — anything committed here is
+# downloadable by anyone, so cover letters and résumé drafts stay out.
+# The one résumé the site actually links to is tracked deliberately.
+*Cover-Letter*.pdf
+*Resume_[0-9].pdf
+*Resume copy.pdf
+*Resume-copy.pdf
+* copy.pdf
+
+# Design sources
+*.psd
+
+# Local source copy; its contents are published as Victoria-Ogbulu-Samsara-Resume.pdf
+Victoria-Ogbulu-ProductDesigner-Resume.pdf
