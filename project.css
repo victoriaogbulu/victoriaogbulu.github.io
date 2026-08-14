@@ -123,9 +123,15 @@ footer .copy{margin-top:2.4rem;font-size:.76rem;color:var(--mut)}
   .nav-folder>span::after{content:""}
 
   /* project rows — flat, no indent */
-  .nav-folder .drop{position:static;transform:none;opacity:1;visibility:visible;display:block;background:none;border:0;border-radius:0;box-shadow:none;padding:0;min-width:0}
+  /* The :hover/:focus-within variants must be listed too: the desktop rules that
+     position the dropdown outrank a plain .nav-folder .drop, so without them a
+     hover or tap slides the whole group sideways out of the panel. */
+  .nav-folder .drop,
+  .nav-folder:hover .drop,
+  .nav-folder:focus-within .drop{position:static;transform:none;opacity:1;visibility:visible;display:block;background:none;border:0;border-radius:0;box-shadow:none;padding:0;min-width:0}
   .drop a{position:relative;display:block;padding:.85rem 1.5rem;border-radius:0;border-bottom:1px solid var(--line);font-family:var(--disp);font-size:1.02rem;font-weight:400}
-  .drop a:hover{background:none}
+  /* feedback belongs to the row you are actually on */
+  nav>ul>li>a:hover,nav>ul>li>a:active,.drop a:hover,.drop a:active{background:var(--bg)}
   .drop a.here{background:none;font-weight:600}
   .drop a.here::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:1.05em;background:var(--ink)}
 
