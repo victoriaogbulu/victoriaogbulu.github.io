@@ -14,8 +14,8 @@
 <body>
 <header id="hdr">
   <a class="brand" href="index.html" aria-label="Victoria Sadé home"><img src="images/header.webp" alt="Victoria Sadé" /></a>
-  <button class="nav-toggle" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">≡</button>
-  <nav><ul>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav"><span class="bars"><i></i><i></i></span></button>
+  <nav id="siteNav"><ul>
     <li><a href="index.html#work">Work</a></li>
     <li class="nav-folder" tabindex="0"><span>Case Studies</span>
       <div class="drop"><a class="here" href="mary-kay-cosmetics.html">Mary Kay Cosmetics</a></div>
@@ -116,7 +116,8 @@
   <div class="foot-nav"><a href="index.html#work">Work</a><a href="resume.pdf" target="_blank" rel="noopener">Résumé</a><a href="mailto:victoriasade89@gmail.com">Contact</a></div>
   <div class="copy">© <span id="yr"></span> Victoria Ogbulu</div>
 </footer>
-<script>const h=document.getElementById('hdr');addEventListener('scroll',()=>h.classList.toggle('scrolled',scrollY>10));document.getElementById('yr').textContent=new Date().getFullYear();document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));</script>
+<script>const h=document.getElementById('hdr');addEventListener('scroll',()=>h.classList.toggle('scrolled',scrollY>10));document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script src="nav.js"></script>
 <script src="anim.js"></script>
 </body>
 </html>
